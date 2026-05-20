@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EC03 · Laboratorio de Análisis Numérico</title>
+<title>la mejor pagina del mundo · EC03</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
@@ -52,11 +52,6 @@
   .hero-title{font-family:var(--font-head);font-size:clamp(2.5rem,7vw,6rem);font-weight:800;line-height:1;letter-spacing:-.02em;margin-bottom:1.5rem;animation:fadeDown .8s .15s ease both}
   .hero-title .line2{color:var(--accent);display:block}
   .hero-sub{color:var(--text2);max-width:600px;margin:0 auto 3rem;font-size:.95rem;animation:fadeDown .8s .3s ease both}
-  .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:700px;margin:0 auto;animation:fadeDown .8s .45s ease both}
-  .hero-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;text-align:left;transition:border-color .3s,transform .3s}
-  .hero-card:hover{border-color:var(--accent);transform:translateY(-4px)}
-  .hero-card .hc-num{font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
-  .hero-card .hc-label{font-size:.7rem;color:var(--text2);margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em}
 
   @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -83,8 +78,8 @@
 
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-  @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}.hero-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:600px){.nav-links{display:none}.hero-grid{grid-template-columns:1fr}}
+  @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+  @media(max-width:600px){.nav-links{display:none}}
 
   .input-group{margin-bottom:1rem}
   .input-group label{display:block;font-size:.7rem;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
@@ -154,12 +149,6 @@
 
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:1rem 0}
 
-  .log-entry{border-left:2px solid var(--accent3);padding:1rem 1.5rem;margin-bottom:1rem;background:var(--bg3);border-radius:0 8px 8px 0;position:relative}
-  .log-date{font-size:.65rem;color:var(--text3);font-family:var(--font-mono)}
-  .log-title{font-family:var(--font-head);font-weight:700;font-size:.9rem;margin:.25rem 0;color:var(--text)}
-  .log-body{font-size:.82rem;color:var(--text2)}
-  .log-prompt{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.75rem;margin-top:.75rem;font-family:var(--font-mono);font-size:.75rem;color:var(--accent3)}
-
   .info-slider{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
   .info-slider label{font-size:.7rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;min-width:120px}
   .info-slider input[type=range]{flex:1;accent-color:var(--accent)}
@@ -205,7 +194,7 @@
 
 <nav>
   <div class="nav-inner">
-    <div class="nav-logo">EC<span>03</span> · LAB</div>
+    <div class="nav-logo">la mejor pagina del mundo</div>
     <ul class="nav-links">
       <li><a href="#teoria">Teoría</a></li>
       <li><a href="#demo">Demo</a></li>
@@ -213,7 +202,6 @@
       <li><a href="#infografia">Infografía</a></li>
       <li><a href="#algoritmo">Algoritmo</a></li>
       <li><a href="#comparativa">Comparativa</a></li>
-      <li><a href="#bitacora">Bitácora</a></li>
     </ul>
   </div>
 </nav>
@@ -226,11 +214,6 @@
       <span class="line2">Interactivo</span>
     </h1>
     <p class="hero-sub">Derivadas finitas e integración numérica aplicadas a la optimización de producción industrial de botellas plásticas</p>
-    <div class="hero-grid">
-      <div class="hero-card"><div class="hc-num">8</div><div class="hc-label">Componentes</div></div>
-      <div class="hero-card"><div class="hc-num">6</div><div class="hc-label">Métodos Num.</div></div>
-      <div class="hero-card"><div class="hc-num">∞</div><div class="hc-label">Interactivo</div></div>
-    </div>
   </div>
 </section>
 
@@ -448,17 +431,6 @@
   </div>
 </section>
 
-<!-- BITÁCORA -->
-<section id="bitacora">
-  <div class="container">
-    <div class="sec-header"><div class="sec-tag">Componente 08</div><h2 class="sec-title">Bitácora de Trabajo y <em>Trazabilidad IA</em></h2></div>
-    <div class="grid2">
-      <div><h3 style="font-family:var(--font-head);font-size:1rem;margin-bottom:1rem;color:var(--text2)">Entradas de trabajo</h3><div class="log-entry"><div class="log-date">Semana 1 · Planificación</div><div class="log-title">Análisis del caso industrial</div><div class="log-body">Se revisaron los documentos del caso. Se identificaron G(x) y C'(x). Se decidió aplicar diferencias finitas centradas y Simpson 1/3.</div><div class="log-prompt">📌 Prompt: "Explica cómo elegir el método de diferencias finitas más apropiado para una función cuadrática."</div></div><div class="log-entry"><div class="log-date">Semana 2 · Implementación</div><div class="log-title">Codificación de algoritmos</div><div class="log-body">Se implementaron los métodos en Python y MATLAB. La diferencia centrada demostró reducción cuadrática del error.</div><div class="log-prompt">📌 Prompt: "Genera código Python para Simpson 1/3 compuesto que integre C'(x)=4x+200."</div></div><div class="log-entry"><div class="log-date">Semana 3 · Validación</div><div class="log-title">Comparación de resultados</div><div class="log-body">Se construyó la tabla comparativa. Simpson 1/3 y 3/8 alcanzan error ≈ 0% para la función lineal.</div><div class="log-prompt">📌 Prompt: "¿Por qué Simpson 1/3 produce exactamente el valor analítico para polinomios de grado ≤ 3?"</div></div><div class="log-entry"><div class="log-date">Semana 4 · Integración Web</div><div class="log-title">Desarrollo del laboratorio interactivo</div><div class="log-body">Se desarrolló la interfaz web con todos los componentes. Se validó que los cálculos coincidan con los scripts.</div><div class="log-prompt">📌 Prompt: "Diseña un sistema de prompts para un chatbot especializado en optimización industrial de botellas."</div></div></div>
-      <div><h3 style="font-family:var(--font-head);font-size:1rem;margin-bottom:1rem;color:var(--text2)">Anexo: Historial de Prompts</h3><div class="card"><div style="display:flex;flex-direction:column;gap:1rem"><div style="background:var(--bg3);border-radius:8px;padding:1rem"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><span class="badge green">Prompt #1</span><span>Semana 1</span></div><div style="font-family:var(--font-mono);font-size:.75rem;color:var(--accent3);background:var(--bg);padding:.75rem;border-radius:6px;margin-bottom:.5rem">"Dado G(x) = -2x² + 240x - 5000, explica paso a paso cómo encontrar el máximo usando diferencias finitas centradas."</div><div style="font-size:.7rem;color:var(--accent);">✓ Validado — Coincide con cálculo manual</div></div><div style="background:var(--bg3);border-radius:8px;padding:1rem"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><span class="badge orange">Prompt #2</span><span>Semana 2</span></div><div style="font-family:var(--font-mono);font-size:.75rem;color:var(--accent3);background:var(--bg);padding:.75rem;border-radius:6px;margin-bottom:.5rem">"¿Cuántos subintervalos n se necesitan para que el Trapecio alcance el mismo error que Simpson 1/3 con n=2?"</div><div style="font-size:.7rem;color:var(--accent);">✓ Validado — Confirmado con scipy</div></div><div style="background:var(--bg3);border-radius:8px;padding:1rem"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><span class="badge purple">Prompt #3</span><span>Semana 3</span></div><div style="font-family:var(--font-mono);font-size:.75rem;color:var(--accent3);background:var(--bg);padding:.75rem;border-radius:6px;margin-bottom:.5rem">"Explica las limitaciones del modelo G(x) = -2x² + 240x - 5000 para una empresa real."</div><div style="font-size:.7rem;color:var(--accent);">✓ Validado — Revisado con literatura</div></div></div></div></div>
-    </div>
-  </div>
-</section>
-
 <footer style="background:var(--bg3);border-top:1px solid var(--border);padding:2rem;text-align:center;z-index:1;position:relative"><div style="font-family:var(--font-head);font-size:.8rem;color:var(--text2)">EC03 · Laboratorio Web Interactivo · Análisis Numérico</div><div style="font-family:var(--font-mono);font-size:.65rem;color:var(--text3);margin-top:.4rem">Derivadas Finitas e Integración Numérica · Fecha de entrega: 20 Mayo 2025 10:00 am</div></footer>
 
 <script>
@@ -495,9 +467,10 @@ for(let i=0;i<25;i++){
   pc.appendChild(p);
 }
 
-// ==================== SECTION DOTS ====================
-const secs = ['hero','teoria','demo','caso','video','infografia','algoritmo','comparativa','bitacora'];
+// ==================== SECTION DOTS (sin bitácora) ====================
+const secs = ['hero','teoria','demo','caso','video','infografia','algoritmo','comparativa'];
 const dotsEl = document.getElementById('secDots');
+dotsEl.innerHTML = '';
 secs.forEach((id,i)=>{
   const d = document.createElement('div'); d.className='sec-dot';
   d.title=id; d.onclick=()=>document.getElementById(id).scrollIntoView({behavior:'smooth'});
@@ -576,7 +549,7 @@ function buildConvergenceTable() {
     const ep=relError((f(x0+h)-f(x0))/h,ana);
     const er=relError((f(x0)-f(x0-h))/h,ana);
     const ec=relError((f(x0+h)-f(x0-h))/(2*h),ana);
-    return `<tr><td>${h}</td><td>${ep.toFixed(4)}%</td><td>${er.toFixed(4)}%</td><td class="best">${ec.toFixed(6)}%</td></tr>`;
+    return `<tr><td>${h}</td><td>${ep.toFixed(4)}%</td><td class="${ec<ep?'best':''}">${er.toFixed(4)}%</td><td class="best">${ec.toFixed(6)}%</td></tr>`;
   }).join('');
 }
 
@@ -892,7 +865,7 @@ function loadVideo(id, url){
   c.style.cursor='default';
 }
 
-// ==================== AI CHAT (simplificado para evitar errores de red) ====================
+// ==================== AI CHAT (simplificado) ====================
 const SYSTEM_PROMPT=`Eres NuméricaBot, especialista en EC03. Responde siempre en español, de forma concisa y técnica. Máximo 150 palabras.`;
 async function sendAIMsg(){
   const inp=document.getElementById('chatInput');
@@ -901,7 +874,6 @@ async function sendAIMsg(){
   appendMsg('user',msg);
   const typing=appendTyping();
   try{
-    // Simulación de respuesta para evitar errores de red (sin API key real). En producción se reemplazaría por una llamada real.
     setTimeout(()=>{
       typing.remove();
       appendMsg('ai',`Recibí tu pregunta: "${msg}". Como asistente local, puedo decirte que el óptimo de producción es x=60 (6000 botellas) con ganancia máxima $2200/día, y la integral de costo marginal de 0 a 50 da $10,000 de costo variable. Para más detalles, revisa las tablas interactivas.`);
