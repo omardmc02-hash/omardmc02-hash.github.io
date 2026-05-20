@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>la mejor pagina del mundo · EC03</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
+<style>
+  :root {
+    --bg: #05060a;
+    --bg2: #0c0e17;
+    --bg3: #111425;
+    --card: #141829;
+    --border: #1e2440;
+    --accent: #00f5c4;
+    --accent2: #ff6b35;
+    --accent3: #7c5cfc;
+    --text: #e8ecf8;
+    --text2: #8892b0;
+    --text3: #4a5568;
+    --glow: rgba(0,245,196,0.15);
+    --glow2: rgba(124,92,252,0.15);
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Space Mono', monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.7;overflow-x:hidden}
+
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:2px}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(5,6,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem}
+  .nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+  .nav-logo{font-family:var(--font-head);font-weight:800;font-size:1.1rem;color:var(--accent);letter-spacing:.05em}
+  .nav-logo span{color:var(--text2)}
+  .nav-links{display:flex;gap:1.5rem;list-style:none}
+  .nav-links a{color:var(--text2);text-decoration:none;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s}
+  .nav-links a:hover{color:var(--accent)}
+
+  section{padding:6rem 2rem;position:relative;z-index:1}
+  .container{max-width:1300px;margin:0 auto}
+
+  #hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,252,0.12) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0,245,196,0.08) 0%, transparent 70%)}
+  .hero-tag{display:inline-block;font-family:var(--font-mono);font-size:.7rem;color:var(--accent);border:1px solid var(--accent);padding:.3rem .8rem;border-radius:2px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeDown .8s ease both}
+  .hero-title{font-family:var(--font-head);font-size:clamp(2.5rem,7vw,6rem);font-weight:800;line-height:1;letter-spacing:-.02em;margin-bottom:1.5rem;animation:fadeDown .8s .15s ease both}
+  .hero-title .line2{color:var(--accent);display:block}
+  .hero-sub{color:var(--text2);max-width:600px;margin:0 auto 3rem;font-size:.95rem;animation:fadeDown .8s .3s ease both}
+
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+  .sec-header{margin-bottom:3rem}
+  .sec-tag{font-family:var(--font-mono);font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}
+  .sec-tag::before{content:'';width:30px;height:1px;background:var(--accent)}
+  .sec-title{font-family:var(--font-head);font-size:clamp(1.6rem,3vw,2.5rem);font-weight:800;line-height:1.1}
+  .sec-title em{color:var(--accent);font-style:normal}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;transition:border-color .3s}
+  .card:hover{border-color:var(--border)}
+  .card-title{font-family:var(--font-head);font-size:1rem;font-weight:700;margin-bottom:1rem;color:var(--text)}
+
+  .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+  .tab-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:.5rem 1.2rem;border-radius:6px;cursor:pointer;font-family:var(--font-mono);font-size:.75rem;letter-spacing:.05em;transition:all .2s}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+  .tab-content{display:none}
+  .tab-content.active{display:block;animation:fadeUp .3s ease}
+
+  .formula{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:1rem 1.5rem;font-family:var(--font-mono);font-size:.85rem;margin:1rem 0;color:var(--accent);position:relative;overflow:hidden}
+  .formula::before{content:'f(x)';position:absolute;right:1rem;top:.5rem;font-size:.6rem;color:var(--text3);letter-spacing:.1em}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+  @media(max-width:600px){.nav-links{display:none}}
+
+  .input-group{margin-bottom:1rem}
+  .input-group label{display:block;font-size:.7rem;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+  .input-group input, .input-group select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.6rem 1rem;border-radius:6px;font-family:var(--font-mono);font-size:.85rem;transition:border-color .2s}
+  .input-group input:focus, .input-group select:focus{outline:none;border-color:var(--accent)}
+
+  .btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:var(--bg);padding:.7rem 1.5rem;border-radius:6px;border:none;cursor:pointer;font-family:var(--font-head);font-weight:700;font-size:.85rem;letter-spacing:.05em;transition:all .2s}
+  .btn:hover{background:#00d4ab;transform:translateY(-2px)}
+  .btn.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+  .btn.btn-outline:hover{background:var(--accent);color:var(--bg)}
+  .btn.btn-sec{background:var(--accent3);color:#fff}
+  .btn.btn-sec:hover{background:#6849e8}
+  .btn.btn-danger{background:var(--accent2);color:#fff}
+
+  .chart-wrap{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem;position:relative}
+  .chart-wrap canvas{max-height:280px}
+
+  .result-box{background:var(--bg);border:1px solid var(--accent);border-radius:8px;padding:1rem 1.5rem;margin-top:1rem}
+  .result-box .r-label{font-size:.65rem;color:var(--text2);text-transform:uppercase;letter-spacing:.12em}
+  .result-box .r-value{font-family:var(--font-head);font-size:1.8rem;font-weight:800;color:var(--accent)}
+
+  .err-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.4);color:var(--accent2);padding:.3rem .8rem;border-radius:4px;font-size:.7rem;font-family:var(--font-mono)}
+
+  .data-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:.8rem}
+  .data-table th{background:var(--bg3);color:var(--text2);text-align:left;padding:.75rem 1rem;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+  .data-table td{padding:.75rem 1rem;border-bottom:1px solid var(--border);color:var(--text)}
+  .data-table tr:hover td{background:rgba(0,245,196,0.03)}
+  .data-table .best{color:var(--accent);font-weight:700}
+  .data-table .highlight{background:rgba(0,245,196,0.05) !important}
+
+  .code-block{background:#080a12;border:1px solid var(--border);border-radius:8px;padding:1.5rem;font-family:var(--font-mono);font-size:.78rem;line-height:1.8;overflow-x:auto;position:relative}
+  .code-block .kw{color:#ff79c6}
+  .code-block .fn{color:#50fa7b}
+  .code-block .cm{color:#6272a4;font-style:italic}
+  .code-block .str{color:#f1fa8c}
+  .code-block .num{color:#bd93f9}
+  .code-block .var{color:#8be9fd}
+
+  .ai-chat{display:flex;flex-direction:column;gap:1rem;max-height:400px;overflow-y:auto;padding:.5rem 0}
+  .msg{display:flex;gap:.75rem;animation:fadeUp .3s ease}
+  .msg.user{flex-direction:row-reverse}
+  .msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+  .msg-avatar.ai{background:linear-gradient(135deg,var(--accent3),var(--accent));color:#fff;font-family:var(--font-head);font-weight:700}
+  .msg-avatar.user{background:var(--accent2);color:#fff}
+  .msg-bubble{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-size:.82rem;max-width:80%;line-height:1.6}
+  .msg.user .msg-bubble{background:rgba(124,92,252,0.15);border-color:rgba(124,92,252,0.4)}
+  .chat-input-wrap{display:flex;gap:.5rem;margin-top:1rem}
+  .chat-input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.75rem 1rem;border-radius:8px;font-family:var(--font-body);font-size:.82rem;resize:none;height:50px;transition:border-color .2s}
+  .chat-input:focus{outline:none;border-color:var(--accent)}
+  .typing{display:flex;gap:4px;align-items:center;padding:.5rem}
+  .typing span{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:bounce 1s infinite}
+  .typing span:nth-child(2){animation-delay:.15s}
+  .typing span:nth-child(3){animation-delay:.3s}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+  .progress-bar{background:var(--bg3);border-radius:99px;height:6px;margin-top:.5rem;overflow:hidden}
+  .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent3),var(--accent));transition:width .8s ease}
+
+  .step-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
+  .step-item{display:flex;gap:.75rem;align-items:flex-start;padding:.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:.82rem;animation:fadeUp .3s ease}
+  .step-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0}
+
+  .badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .7rem;border-radius:99px;font-size:.65rem;letter-spacing:.08em;font-family:var(--font-mono)}
+  .badge.green{background:rgba(0,245,196,0.1);color:var(--accent);border:1px solid rgba(0,245,196,0.3)}
+  .badge.purple{background:rgba(124,92,252,0.1);color:var(--accent3);border:1px solid rgba(124,92,252,0.3)}
+  .badge.orange{background:rgba(255,107,53,0.1);color:var(--accent2);border:1px solid rgba(255,107,53,0.3)}
+
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:1rem 0}
+
+  .info-slider{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+  .info-slider label{font-size:.7rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;min-width:120px}
+  .info-slider input[type=range]{flex:1;accent-color:var(--accent)}
+  .info-slider .val{font-family:var(--font-mono);color:var(--accent);font-size:.8rem;min-width:60px;text-align:right}
+
+  #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .particle{position:absolute;width:2px;height:2px;background:var(--accent);border-radius:50%;opacity:0;animation:float-up linear infinite}
+  @keyframes float-up{0%{opacity:0;transform:translateY(0) scale(0)}20%{opacity:.6}80%{opacity:.3}100%{opacity:0;transform:translateY(-100vh) scale(1.5)}}
+
+  .sec-glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+  .sec-glow.tl{top:-200px;left:-200px;background:var(--glow2)}
+  .sec-glow.br{bottom:-200px;right:-200px;background:var(--glow)}
+
+  .video-container{position:relative;padding-bottom:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+  .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+  .video-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:var(--bg3);cursor:pointer}
+  .play-btn{width:70px;height:70px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--bg);transition:transform .2s,box-shadow .2s}
+  .play-btn:hover{transform:scale(1.1);box-shadow:0 0 30px rgba(0,245,196,0.4)}
+
+  [data-tip]{position:relative;cursor:help}
+  [data-tip]::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:#1e2440;color:var(--text);padding:.4rem .8rem;border-radius:4px;font-size:.7rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid var(--border);font-family:var(--font-mono)}
+  [data-tip]:hover::after{opacity:1}
+
+  .algo-wrap{display:flex;gap:1rem;align-items:flex-start;flex-wrap:wrap}
+  .algo-sidebar{display:flex;flex-direction:column;gap:.5rem;min-width:160px}
+  .algo-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:.5rem 1rem;border-radius:6px;cursor:pointer;font-size:.75rem;font-family:var(--font-mono);transition:all .2s;text-align:left}
+  .algo-btn.active{border-color:var(--accent3);color:var(--accent3);background:rgba(124,92,252,0.1)}
+  .algo-content{flex:1}
+
+  .animated-num{font-family:var(--font-head);font-size:2.2rem;font-weight:800;color:var(--accent)}
+
+  .sec-indicator{position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.5rem;z-index:50}
+  .sec-dot{width:8px;height:8px;border-radius:50%;background:var(--text3);transition:all .3s;cursor:pointer}
+  .sec-dot.active{background:var(--accent);transform:scale(1.5)}
+
+  @media(max-width:600px){.sec-indicator{display:none}.algo-wrap{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+<div class="sec-indicator" id="secDots"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">la mejor pagina del mundo</div>
+    <ul class="nav-links">
+      <li><a href="#teoria">Teoría</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#caso">Casos</a></li>
+      <li><a href="#infografia">Infografía</a></li>
+      <li><a href="#algoritmo">Algoritmo</a></li>
+      <li><a href="#comparativa">Comparativa</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section id="hero">
+  <div style="position:relative;z-index:1">
+    <div class="hero-tag">Análisis Numérico · ACTIVIDAD EC03</div>
+    <h1 class="hero-title">
+      Laboratorio Web
+      <span class="line2">Interactivo</span>
+    </h1>
+    <p class="hero-sub">Derivadas finitas e integración numérica aplicadas a la optimización de producción industrial de botellas plásticas</p>
+  </div>
+</section>
+
+<!-- TEORÍA -->
+<section id="teoria" style="background:var(--bg2)">
+  <div class="sec-glow tl"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-header">
+      <div class="sec-tag">Componente 01</div>
+      <h2 class="sec-title">Contextualización <em>Teórica</em></h2>
+    </div>
+    <div class="tabs" id="teoria-tabs">
+      <button class="tab-btn active" onclick="switchTab('teoria-tabs','teoria-panels','t-df')">Dif. Finitas</button>
+      <button class="tab-btn" onclick="switchTab('teoria-tabs','teoria-panels','t-int')">Integración</button>
+      <button class="tab-btn" onclick="switchTab('teoria-tabs','teoria-panels','t-error')">Error vs h</button>
+    </div>
+    <div id="teoria-panels">
+      <div id="t-df" class="tab-content active">
+        <div class="grid2">
+          <div>
+            <div class="tabs" id="df-tabs" style="margin-bottom:1rem">
+              <button class="tab-btn active" onclick="switchTab('df-tabs','df-panels','df-prog')">Progresiva</button>
+              <button class="tab-btn" onclick="switchTab('df-tabs','df-panels','df-regr')">Regresiva</button>
+              <button class="tab-btn" onclick="switchTab('df-tabs','df-panels','df-cent')">Centrada</button>
+              <button class="tab-btn" onclick="switchTab('df-tabs','df-panels','df-2ord')">2° Orden</button>
+            </div>
+            <div id="df-panels">
+              <div id="df-prog" class="tab-content active card"><div class="card-title">Diferencia Progresiva — 1° Orden</div><div class="formula">f'(x) ≈ [f(x+h) − f(x)] / h</div><p style="color:var(--text2);font-size:.82rem">Aproxima la derivada usando el punto actual y el siguiente. <strong style="color:var(--text)">Error O(h)</strong>.</p><div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h)</span></div></div>
+              <div id="df-regr" class="tab-content card"><div class="card-title">Diferencia Regresiva — 1° Orden</div><div class="formula">f'(x) ≈ [f(x) − f(x−h)] / h</div><p style="color:var(--text2);font-size:.82rem">Usa el punto actual y el anterior. Misma precisión O(h).</p><div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h)</span></div></div>
+              <div id="df-cent" class="tab-content card"><div class="card-title">Diferencia Centrada — 1° Orden</div><div class="formula">f'(x) ≈ [f(x+h) − f(x−h)] / (2h)</div><p style="color:var(--text2);font-size:.82rem">Combina puntos anterior y posterior. <strong style="color:var(--accent)">Error O(h²)</strong> — mucho más precisa.</p><div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h²) ★</span></div></div>
+              <div id="df-2ord" class="tab-content card"><div class="card-title">Segunda Derivada — Centrada</div><div class="formula">f''(x) ≈ [f(x+h) − 2f(x) + f(x−h)] / h²</div><p style="color:var(--text2);font-size:.82rem">Aproxima curvatura. Fundamental para máximos/mínimos (2ª derivada).</p><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h²)</span></div></div>
+            </div>
+          </div>
+          <div class="card"><div class="card-title">Comparación Geométrica</div><div class="chart-wrap"><canvas id="dfGeomChart"></canvas></div><div style="font-size:.75rem;color:var(--text2)">Las tres aproximaciones convergen a la derivada real al reducir h. La centrada es la más cercana a la tangente exacta.</div></div>
+        </div>
+      </div>
+      <div id="t-int" class="tab-content">
+        <div class="grid3">
+          <div class="card"><div class="card-title">🔷 Regla del Trapecio</div><div class="formula">∫ ≈ (b−a)/2 · [f(a) + f(b)]</div><p style="color:var(--text2);font-size:.82rem">Aproxima el área bajo la curva usando trapecios. Compuesto: suma de n trapecios.</p><div class="divider"></div><div class="formula" style="font-size:.75rem">Compuesto: h/2·[f(x₀)+2f(x₁)+...+f(xₙ)]</div><div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h²)</span></div></div>
+          <div class="card" style="border-color:rgba(0,245,196,0.3)"><div class="card-title">🔶 Simpson 1/3</div><div class="formula">∫ ≈ h/3·[f(x₀)+4f(x₁)+f(x₂)]</div><p style="color:var(--text2);font-size:.82rem">Usa parábolas. Requiere n par. Alta precisión para funciones suaves.</p><div class="divider"></div><div class="formula" style="font-size:.75rem">Compuesto: h/3·[f₀+4f₁+2f₂+4f₃+...+fₙ]</div><div class="progress-bar"><div class="progress-fill" style="width:88%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h⁴) ★</span></div></div>
+          <div class="card"><div class="card-title">🔸 Simpson 3/8</div><div class="formula">∫ ≈ 3h/8·[f(x₀)+3f(x₁)+3f(x₂)+f(x₃)]</div><p style="color:var(--text2);font-size:.82rem">Usa polinomios cúbicos. Requiere n múltiplo de 3. Precisión O(h⁴).</p><div class="divider"></div><div class="formula" style="font-size:.75rem">Compuesto: 3h/8·[f₀+3f₁+3f₂+2f₃+...+fₙ]</div><div class="progress-bar"><div class="progress-fill" style="width:82%"></div></div><div style="display:flex;justify-content:space-between;margin-top:.3rem;font-size:.65rem;color:var(--text3)"><span>Precisión</span><span>O(h⁴)</span></div></div>
+        </div>
+      </div>
+      <div id="t-error" class="tab-content">
+        <div class="grid2">
+          <div class="card"><div class="card-title">Animación: Error según paso h</div><div class="chart-wrap"><canvas id="errorChart"></canvas></div><div style="margin-top:1rem"><div class="info-slider"><label>Valor de h</label><input type="range" min="1" max="100" value="30" id="hSlider" oninput="updateErrorChart(this.value)"><div class="val" id="hVal">0.30</div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:1rem"><div class="result-box" style="padding:.75rem"><div class="r-label">Progresiva</div><div class="r-value" style="font-size:1.1rem" id="errProg">—</div></div><div class="result-box" style="padding:.75rem"><div class="r-label">Regresiva</div><div class="r-value" style="font-size:1.1rem" id="errRegr">—</div></div><div class="result-box" style="padding:.75rem;border-color:var(--accent)"><div class="r-label">Centrada</div><div class="r-value" style="font-size:1.1rem" id="errCent">—</div></div></div></div></div>
+          <div class="card"><div class="card-title">Tabla de Convergencia</div><div style="overflow-x:auto"><table class="data-table" id="convergenceTable"><thead><tr><th>h</th><th>E. Prog.</th><th>E. Regr.</th><th>E. Cent.</th></tr></thead><tbody id="convergenceBody"></tbody></table></div><p style="margin-top:1rem;font-size:.78rem;color:var(--text2)">Función: sin(x) evaluada en x=1.0. La diferencia centrada reduce el error cuadráticamente al disminuir h.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO GENÉRICA -->
+<section id="demo">
+  <div class="sec-glow br"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-header"><div class="sec-tag">Componente 02</div><h2 class="sec-title">Demostración <em>Genérica</em> Interactiva</h2></div>
+    <div class="tabs" id="demo-tabs">
+      <button class="tab-btn active" onclick="switchTab('demo-tabs','demo-panels','demo-deriv')">Derivadas Finitas</button>
+      <button class="tab-btn" onclick="switchTab('demo-tabs','demo-panels','demo-integ')">Integración Numérica</button>
+    </div>
+    <div id="demo-panels">
+      <div id="demo-deriv" class="tab-content">
+        <div class="grid2">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div class="card-title">Configuración</div><div class="input-group"><label>Función f(x)</label><input type="text" id="derivFunc" value="-2*x^2+240*x-5000"></div><div class="grid2" style="gap:.75rem"><div class="input-group"><label>Punto x₀</label><input type="number" id="derivX" value="60" step="0.5"></div><div class="input-group"><label>Paso h</label><input type="number" id="derivH" value="0.1" step="0.01" min="0.001"></div></div><div class="input-group"><label>Método</label><select id="derivMethod"><option value="prog">Diferencia Progresiva</option><option value="regr">Diferencia Regresiva</option><option value="cent" selected>Diferencia Centrada ★</option><option value="2ord">Segunda Derivada</option></select></div><button class="btn" onclick="calcDerivDemo()">▶ Calcular</button></div>
+            <div id="derivSteps" class="card" style="display:none"><div class="card-title">Desglose Paso a Paso</div><div id="derivStepsList" class="step-list"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div class="card-title">Gráfica Dinámica</div><div class="chart-wrap"><canvas id="derivChart"></canvas></div></div>
+            <div id="derivResult" class="card" style="display:none"><div class="card-title">Resultado</div><div class="grid2" style="gap:1rem"><div class="result-box"><div class="r-label">Derivada Numérica</div><div class="r-value" id="derivNumRes">—</div></div><div class="result-box"><div class="r-label">Derivada Analítica</div><div class="r-value" id="derivAnaRes">—</div></div></div><div class="result-box" style="margin-top:.75rem"><div class="r-label">Error Relativo</div><div class="r-value" id="derivErrRes" style="font-size:1.2rem">—</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div id="demo-integ" class="tab-content">
+        <div class="grid2">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div class="card-title">Configuración</div><div class="input-group"><label>Función f(x)</label><input type="text" id="integFunc" value="4*x+200"></div><div class="grid2" style="gap:.75rem"><div class="input-group"><label>Límite inferior a</label><input type="number" id="integA" value="0" step="1"></div><div class="input-group"><label>Límite superior b</label><input type="number" id="integB" value="50" step="1"></div></div><div class="input-group"><label>Número de subintervalos n</label><input type="number" id="integN" value="10" min="2" step="2"></div><div class="input-group"><label>Método</label><select id="integMethod"><option value="trap">Regla del Trapecio</option><option value="simp13" selected>Simpson 1/3 ★</option><option value="simp38">Simpson 3/8</option></select></div><button class="btn" onclick="calcIntegDemo()">▶ Calcular</button></div>
+            <div id="integSteps" class="card" style="display:none"><div class="card-title">Desglose Paso a Paso</div><div id="integStepsList" class="step-list"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div class="card-title">Visualización del Área</div><div class="chart-wrap"><canvas id="integChart"></canvas></div></div>
+            <div id="integResult" class="card" style="display:none"><div class="card-title">Resultado</div><div class="grid2" style="gap:1rem"><div class="result-box"><div class="r-label">Resultado Numérico</div><div class="r-value" id="integNumRes">—</div></div><div class="result-box"><div class="r-label">Valor Analítico</div><div class="r-value" id="integAnaRes">—</div></div></div><div class="result-box" style="margin-top:.75rem"><div class="r-label">Error Relativo %</div><div class="r-value" id="integErrRes" style="font-size:1.2rem">—</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASO INDUSTRIAL + AVATAR IA -->
+<section id="caso" style="background:var(--bg2)">
+  <div class="sec-glow tl"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-header"><div class="sec-tag">Componente 03</div><h2 class="sec-title">Estudios de <em>Caso Industrial</em></h2></div>
+    <div class="tabs" id="caso-tabs">
+      <button class="tab-btn active" onclick="switchTab('caso-tabs','caso-panels','caso-deriv')">📈 Derivadas: Ganancias</button>
+      <button class="tab-btn" onclick="switchTab('caso-tabs','caso-panels','caso-integ')">📊 Integrales: Costos</button>
+      <button class="tab-btn" onclick="switchTab('caso-tabs','caso-panels','caso-ai')">🤖 Avatar IA</button>
+    </div>
+    <div id="caso-panels">
+      <div id="caso-deriv" class="tab-content">
+        <div class="grid2">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">🏭</span><div><div class="card-title" style="margin:0">Empresa de Botellas Plásticas</div><div style="font-size:.7rem;color:var(--text2)">Optimización de Producción · Derivadas</div></div></div><p style="font-size:.85rem;color:var(--text2);margin-bottom:1rem">La empresa necesita maximizar sus ganancias diarias. Las derivadas revelan el punto óptimo.</p><div class="formula">G(x) = −2x² + 240x − 5000</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1rem;font-size:.82rem;color:var(--text2)"><div><strong style="color:var(--text)">G(x)</strong> — Ganancia diaria ($)</div><div><strong style="color:var(--text)">x</strong> — Cientos de botellas</div></div></div>
+            <div class="card"><div class="card-title">Solución Analítica</div><div class="step-list"><div class="step-item"><div class="step-num">1</div><div>Derivar: <span style="color:var(--accent);font-family:var(--font-mono)">G'(x) = −4x + 240</span></div></div><div class="step-item"><div class="step-num">2</div><div>Igualar a cero: <span style="color:var(--accent);font-family:var(--font-mono)">−4x + 240 = 0</span></div></div><div class="step-item"><div class="step-num">3</div><div>Resolver: <span style="color:var(--accent);font-family:var(--font-mono)">x = 60</span> (600 decenas = 6000 botellas)</div></div><div class="step-item"><div class="step-num">4</div><div>Ganancia máxima: <span style="color:var(--accent);font-family:var(--font-mono)">G(60) = $2,200/día</span></div></div></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div class="card-title">Curva de Ganancias</div><div class="chart-wrap"><canvas id="casoDerivChart"></canvas></div></div>
+            <div class="card"><div class="card-title">Verificación Numérica con Diferencias Finitas</div><div class="info-slider"><label>Paso h</label><input type="range" min="1" max="100" value="10" id="casoHSlider" oninput="updateCasoDerivCalc(this.value)"><div class="val" id="casoHVal">0.10</div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.5rem"><div class="result-box" style="padding:.6rem"><div class="r-label" style="font-size:.6rem">Progresiva</div><div class="r-value" style="font-size:1rem" id="casoDProg">—</div></div><div class="result-box" style="padding:.6rem"><div class="r-label" style="font-size:.6rem">Regresiva</div><div class="r-value" style="font-size:1rem" id="casoDRegr">—</div></div><div class="result-box" style="padding:.6rem"><div class="r-label" style="font-size:.6rem">Centrada</div><div class="r-value" style="font-size:1rem" id="casoDCent">—</div></div></div><div style="margin-top:.75rem;font-size:.78rem;color:var(--text2)">Evaluado en x=60 (punto óptimo). Valor analítico exacto: <strong style="color:var(--accent)">0</strong> (mínimo/máximo)</div></div>
+          </div>
+        </div>
+      </div>
+      <div id="caso-integ" class="tab-content">
+        <div class="grid2">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="font-size:2rem">💰</span><div><div class="card-title" style="margin:0">Empresa de Botellas Plásticas</div><div style="font-size:.7rem;color:var(--text2)">Costo Total Acumulado · Integrales</div></div></div><p style="font-size:.85rem;color:var(--text2);margin-bottom:1rem">El costo marginal aumenta con la producción. La integral acumula estos costos marginales para obtener el costo total.</p><div class="formula">C'(x) = 4x + 200</div><div class="formula" style="margin-top:.5rem">C(x) = ∫(4x + 200)dx = 2x² + 200x + k</div><div style="margin-top:.75rem;font-size:.82rem;color:var(--text2)">Con costos fijos k = 5000: <span style="color:var(--accent);font-family:var(--font-mono)">C(x) = 2x² + 200x + 5000</span></div></div>
+            <div class="card"><div class="card-title">Solución Analítica para x=50</div><div class="step-list"><div class="step-item"><div class="step-num">1</div><div>Función: <span style="color:var(--accent);font-family:var(--font-mono)">C'(x) = 4x + 200</span></div></div><div class="step-item"><div class="step-num">2</div><div>Integrar: <span style="color:var(--accent);font-family:var(--font-mono)">C(x) = 2x² + 200x + 5000</span></div></div><div class="step-item"><div class="step-num">3</div><div>Evaluar: <span style="color:var(--accent);font-family:var(--font-mono)">C(50) = 5000 + 10000 + 5000</span></div></div><div class="step-item"><div class="step-num">4</div><div>Resultado: <span style="color:var(--accent);font-family:var(--font-mono)">C(50) = $20,000</span> (5000 botellas)</div></div></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="card"><div class="card-title">Área bajo la Curva de Costo Marginal</div><div class="chart-wrap"><canvas id="casoIntegChart"></canvas></div></div>
+            <div class="card"><div class="card-title">Comparación de Métodos de Integración (a=0, b=50)</div><div style="overflow-x:auto"><table class="data-table" id="casoIntegTable"><thead><tr><th>Método</th><th>n</th><th>Resultado</th><th>Error %</th></tr></thead><tbody id="casoIntegBody"></tbody></table></div><p style="margin-top:.75rem;font-size:.78rem;color:var(--text2)">Valor analítico exacto de ∫₀⁵⁰(4x+200)dx = <strong style="color:var(--accent)">$10,000</strong> (costo variable sin fijos)</p></div>
+          </div>
+        </div>
+      </div>
+      <div id="caso-ai" class="tab-content">
+        <div class="grid2">
+          <div class="card" style="display:flex;flex-direction:column">
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)"><div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:1.1rem;color:#fff">IA</div><div><div style="font-family:var(--font-head);font-weight:700">NuméricaBot</div><div style="font-size:.7rem;color:var(--accent);display:flex;align-items:center;gap:.3rem"><span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span> En línea · Especialista en Métodos Numéricos</div></div></div>
+            <div class="ai-chat" id="aiChat"><div class="msg"><div class="msg-avatar ai">IA</div><div class="msg-bubble">¡Hola! Soy NuméricaBot, tu asistente especializado en el caso de <strong>optimización de la fábrica de botellas plásticas</strong>. Puedo responder sobre derivadas, integrales numéricas, el análisis de ganancias G(x) = -2x² + 240x - 5000, y el costo marginal C'(x) = 4x + 200. ¿Qué deseas saber?</div></div></div>
+            <div class="chat-input-wrap"><textarea class="chat-input" id="chatInput" placeholder="Pregunta sobre el caso industrial..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIMsg()}"></textarea><button class="btn" onclick="sendAIMsg()" style="height:50px;padding:0 1rem">→</button></div>
+            <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem"><button class="badge purple" style="cursor:pointer;font-size:.65rem" onclick="quickAsk('¿Cuál es la producción óptima?')">¿Producción óptima?</button><button class="badge green" style="cursor:pointer;font-size:.65rem" onclick="quickAsk('¿Cómo se aplica la segunda derivada?')">2ª derivada</button><button class="badge orange" style="cursor:pointer;font-size:.65rem" onclick="quickAsk('¿Por qué usar Simpson 1/3 para los costos?')">Simpson 1/3</button><button class="badge purple" style="cursor:pointer;font-size:.65rem" onclick="quickAsk('¿Qué significa el error relativo porcentual?')">Error relativo</button></div>
+          </div>
+          <div class="card"><div class="card-title">Base de Conocimiento del Avatar</div><div style="display:flex;flex-direction:column;gap:.75rem"><div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1rem"><div class="badge green" style="margin-bottom:.5rem">Caso Derivadas</div><div style="font-size:.82rem;color:var(--text2)">G(x) = -2x² + 240x - 5000 · G'(x) = -4x + 240 · x_opt = 60 · G_max = $2,200/día</div></div><div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1rem"><div class="badge orange" style="margin-bottom:.5rem">Caso Integrales</div><div style="font-size:.82rem;color:var(--text2)">C'(x) = 4x + 200 · C(x) = 2x² + 200x + 5000 · C(50) = $20,000 · 5000 botellas</div></div><div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1rem"><div class="badge purple" style="margin-bottom:.5rem">Métodos Numéricos</div><div style="font-size:.82rem;color:var(--text2)">Dif. Progresiva O(h) · Dif. Centrada O(h²) · Trapecio O(h²) · Simpson 1/3 O(h⁴)</div></div><div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1rem"><div class="badge green" style="margin-bottom:.5rem">Powered by Anthropic</div><div style="font-size:.82rem;color:var(--text2)">Este asistente usa la API de Claude claude-sonnet-4-20250514 con un contexto especializado en los documentos del caso EC03.</div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="container">
+    <div class="sec-header"><div class="sec-tag">Componente 04</div><h2 class="sec-title">Solución en <em>Video</em></h2></div>
+    <div class="grid2">
+      <div><div style="margin-bottom:1rem;display:flex;align-items:center;gap:.75rem"><span class="badge green">Derivadas</span><span style="font-size:.82rem;color:var(--text2)">Optimización de Ganancias</span></div><div class="video-container"><div class="video-placeholder" id="vid1" onclick="loadVideo('vid1','https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-btn">▶</div><div style="font-family:var(--font-head);font-weight:700">Derivadas — Caso Industrial</div><div style="font-size:.75rem;color:var(--text2)">Click para cargar el video (máx. 5 min)</div><div style="font-size:.7rem;color:var(--text3);margin-top:.5rem;font-family:var(--font-mono)">📌 Reemplazar URL con el video del grupo</div></div></div><div class="card" style="margin-top:1rem;padding:1rem"><div class="card-title" style="font-size:.85rem">Puntos cubiertos</div><div style="display:flex;flex-direction:column;gap:.4rem;font-size:.78rem;color:var(--text2)"><div>✓ Razonamiento técnico del punto crítico x=60</div><div>✓ Validación analítica vs. diferencias finitas</div><div>✓ Limitaciones del modelo cuadrático</div><div>✓ Participación grupal en el análisis</div></div></div></div>
+      <div><div style="margin-bottom:1rem;display:flex;align-items:center;gap:.75rem"><span class="badge orange">Integrales</span><span style="font-size:.82rem;color:var(--text2)">Costos Acumulados</span></div><div class="video-container"><div class="video-placeholder" id="vid2" onclick="loadVideo('vid2','https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-btn">▶</div><div style="font-family:var(--font-head);font-weight:700">Integrales — Caso Industrial</div><div style="font-size:.75rem;color:var(--text2)">Click para cargar el video (máx. 5 min)</div><div style="font-size:.7rem;color:var(--text3);margin-top:.5rem;font-family:var(--font-mono)">📌 Reemplazar URL con el video del grupo</div></div></div><div class="card" style="margin-top:1rem;padding:1rem"><div class="card-title" style="font-size:.85rem">Puntos cubiertos</div><div style="display:flex;flex-direction:column;gap:.4rem;font-size:.78rem;color:var(--text2)"><div>✓ Interpretación del costo marginal C'(x)</div><div>✓ Comparación Trapecio vs. Simpson</div><div>✓ Impacto de los costos fijos k=5000</div><div>✓ Análisis de sensibilidad de n</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INFOGRAFÍA DINÁMICA -->
+<section id="infografia" style="background:var(--bg2)">
+  <div class="sec-glow br"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-header"><div class="sec-tag">Componente 05</div><h2 class="sec-title">Infografía <em>Dinámica</em></h2></div>
+    <div class="tabs" id="info-tabs">
+      <button class="tab-btn active" onclick="switchTab('info-tabs','info-panels','info-gan')">Ganancias vs Producción</button>
+      <button class="tab-btn" onclick="switchTab('info-tabs','info-panels','info-cost')">Costos vs Producción</button>
+      <button class="tab-btn" onclick="switchTab('info-tabs','info-panels','info-met')">Métodos Comparados</button>
+    </div>
+    <div id="info-panels">
+      <div id="info-gan" class="tab-content">
+        <div class="grid2">
+          <div class="card"><div class="card-title">Parámetros de la Función G(x)</div><div class="info-slider"><label>Coef. a (cuadrático)</label><input type="range" min="-10" max="-0.5" value="-2" step="0.5" id="slA" oninput="updateGanChart()"><div class="val" id="slAv">-2</div></div><div class="info-slider"><label>Coef. b (lineal)</label><input type="range" min="100" max="400" value="240" step="10" id="slB" oninput="updateGanChart()"><div class="val" id="slBv">240</div></div><div class="info-slider"><label>Costos fijos c</label><input type="range" min="0" max="10000" value="5000" step="250" id="slC" oninput="updateGanChart()"><div class="val" id="slCv">-5000</div></div><div class="divider"></div><div class="grid2" style="gap:.75rem"><div class="result-box"><div class="r-label">x óptimo</div><div class="r-value" id="infoXopt">60</div></div><div class="result-box"><div class="r-label">G máxima ($)</div><div class="r-value" id="infoGmax">2200</div></div></div><div class="result-box" style="margin-top:.75rem"><div class="r-label">Función actual</div><div style="font-family:var(--font-mono);color:var(--accent);font-size:.85rem" id="infoGfunc">G(x) = −2x² + 240x − 5000</div></div></div>
+          <div class="card"><div class="chart-wrap" style="height:320px"><canvas id="infoGanChart"></canvas></div></div>
+        </div>
+      </div>
+      <div id="info-cost" class="tab-content">
+        <div class="grid2">
+          <div class="card"><div class="card-title">Parámetros del Costo Marginal C'(x)</div><div class="info-slider"><label>Coef. lineal (a)</label><input type="range" min="1" max="20" value="4" step="0.5" id="slCa" oninput="updateCostChart()"><div class="val" id="slCav">4</div></div><div class="info-slider"><label>Costo marginal base</label><input type="range" min="50" max="500" value="200" step="10" id="slCb" oninput="updateCostChart()"><div class="val" id="slCbv">200</div></div><div class="info-slider"><label>Costos fijos k</label><input type="range" min="0" max="15000" value="5000" step="500" id="slCk" oninput="updateCostChart()"><div class="val" id="slCkv">5000</div></div><div class="info-slider"><label>Producción máx. x</label><input type="range" min="10" max="100" value="50" step="1" id="slCx" oninput="updateCostChart()"><div class="val" id="slCxv">50</div></div><div class="divider"></div><div class="result-box"><div class="r-label">Costo total C(x)</div><div class="r-value" id="infoCost">$20,000</div></div></div>
+          <div class="card"><div class="chart-wrap" style="height:320px"><canvas id="infoCostChart"></canvas></div></div>
+        </div>
+      </div>
+      <div id="info-met" class="tab-content">
+        <div class="grid2">
+          <div class="card"><div class="card-title">Precisión de Métodos vs n</div><div class="info-slider"><label>Subintervalos n</label><input type="range" min="2" max="50" value="6" step="2" id="slN" oninput="updateMetChart()"><div class="val" id="slNv">6</div></div><div style="margin-top:1rem;overflow-x:auto"><table class="data-table"><thead><tr><th>Método</th><th>Resultado</th><th>Error %</th></tr></thead><tbody id="metTableBody"></tbody></table></div></div>
+          <div class="card"><div class="chart-wrap" style="height:320px"><canvas id="infoMetChart"></canvas></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALGORITMO DESCARGABLE -->
+<section id="algoritmo">
+  <div class="container">
+    <div class="sec-header"><div class="sec-tag">Componente 06</div><h2 class="sec-title">Algoritmo <em>Personalizado</em> y Descargable</h2></div>
+    <div class="algo-wrap">
+      <div class="algo-sidebar"><div style="font-size:.65rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1rem">Seleccionar</div><button class="algo-btn active" onclick="showAlgo('py-deriv')">🐍 Derivadas (Python)</button><button class="algo-btn" onclick="showAlgo('py-integ')">🐍 Integrales (Python)</button><button class="algo-btn" onclick="showAlgo('m-deriv')">📐 Derivadas (MATLAB)</button><button class="algo-btn" onclick="showAlgo('m-integ')">📐 Integrales (MATLAB)</button></div>
+      <div class="algo-content">
+        <div id="py-deriv" class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem"><div><div class="card-title" style="margin:0">derivadas_finitas.py</div><div style="font-size:.7rem;color:var(--text2)">Python 3.x · NumPy · Matplotlib</div></div><div style="display:flex;gap:.5rem"><button class="btn btn-outline" onclick="downloadAlgo('py-deriv')" style="font-size:.78rem;padding:.5rem 1rem">⬇ Descargar .py</button><button class="btn btn-outline" onclick="downloadManual()" style="font-size:.78rem;padding:.5rem 1rem">📄 Manual</button></div></div><div class="code-block" id="code-py-deriv"><span class="cm"># ============================================================</span>\n<span class="cm"># EC03 · Laboratorio de Métodos Numéricos</span>\n<span class="cm"># Caso: Optimización de Producción – Empresa de Botellas</span>\n<span class="cm"># ============================================================</span>\n<span class="kw">import</span> numpy <span class="kw">as</span> <span class="var">np</span>\n<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> <span class="var">plt</span>\n\n<span class="kw">def</span> <span class="fn">G</span>(<span class="var">x</span>):\n    <span class="kw">return</span> -<span class="num">2</span>*<span class="var">x</span>**<span class="num">2</span> + <span class="num">240</span>*<span class="var">x</span> - <span class="num">5000</span>\n\n<span class="kw">def</span> <span class="fn">df_progresiva</span>(<span class="var">f</span>, <span class="var">x</span>, <span class="var">h</span>=<span class="num">0.1</span>):\n    <span class="kw">return</span> (<span class="var">f</span>(<span class="var">x</span> + <span class="var">h</span>) - <span class="var">f</span>(<span class="var">x</span>)) / <span class="var">h</span>\n\n<span class="kw">def</span> <span class="fn">df_centrada</span>(<span class="var">f</span>, <span class="var">x</span>, <span class="var">h</span>=<span class="num">0.1</span>):\n    <span class="kw">return</span> (<span class="var">f</span>(<span class="var">x</span> + <span class="var">h</span>) - <span class="var">f</span>(<span class="var">x</span> - <span class="var">h</span>)) / (<span class="num">2</span> * <span class="var">h</span>)\n\n<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:\n    <span class="var">x0</span>, <span class="var">h</span> = <span class="num">60</span>, <span class="num">0.1</span>\n    print(<span class="str">f"Centrada: {df_centrada(G, x0, h):.6f}"</span>)\n    print(<span class="str">f"Analítica: {-4*x0+240:.6f}"</span>)</div></div>
+        <div id="py-integ" class="card" style="display:none"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem"><div><div class="card-title" style="margin:0">integracion_numerica.py</div><div style="font-size:.7rem;color:var(--text2)">Python 3.x · NumPy</div></div><button class="btn btn-outline" onclick="downloadAlgo('py-integ')" style="font-size:.78rem;padding:.5rem 1rem">⬇ Descargar .py</button></div><div class="code-block"><span class="cm"># ============================================================</span>\n<span class="cm"># EC03 · Integración Numérica</span>\n<span class="cm"># Caso: Costo Total – Empresa de Botellas</span>\n<span class="cm"># ============================================================</span>\n<span class="kw">import</span> numpy <span class="kw">as</span> <span class="var">np</span>\n\n<span class="kw">def</span> <span class="fn">Cp</span>(<span class="var">x</span>):\n    <span class="kw">return</span> <span class="num">4</span>*<span class="var">x</span> + <span class="num">200</span>\n\n<span class="kw">def</span> <span class="fn">trapecio</span>(<span class="var">f</span>, <span class="var">a</span>, <span class="var">b</span>, <span class="var">n</span>=<span class="num">10</span>):\n    <span class="var">h</span> = (<span class="var">b</span>-<span class="var">a</span>)/<span class="var">n</span>\n    <span class="var">xs</span> = <span class="var">np</span>.linspace(<span class="var">a</span>, <span class="var">b</span>, <span class="var">n</span>+<span class="num">1</span>)\n    <span class="var">ys</span> = <span class="var">f</span>(<span class="var">xs</span>)\n    <span class="kw">return</span> <span class="var">h</span>/<span class="num">2</span> * (<span class="var">ys</span>[<span class="num">0</span>] + <span class="num">2</span>*<span class="var">np</span>.sum(<span class="var">ys</span>[<span class="num">1</span>:-<span class="num">1</span>]) + <span class="var">ys</span>[-<span class="num">1</span>])\n\n<span class="kw">def</span> <span class="fn">simpson13</span>(<span class="var">f</span>, <span class="var">a</span>, <span class="var">b</span>, <span class="var">n</span>=<span class="num">10</span>):\n    <span class="kw">if</span> <span class="var">n</span> % <span class="num">2</span> != <span class="num">0</span>: <span class="var">n</span> += <span class="num">1</span>\n    <span class="var">h</span> = (<span class="var">b</span>-<span class="var">a</span>)/<span class="var">n</span>\n    <span class="var">xs</span> = <span class="var">np</span>.linspace(<span class="var">a</span>, <span class="var">b</span>, <span class="var">n</span>+<span class="num">1</span>)\n    <span class="var">ys</span> = <span class="var">f</span>(<span class="var">xs</span>)\n    <span class="var">coef</span> = <span class="var">np</span>.ones(<span class="var">n</span>+<span class="num">1</span>)\n    <span class="var">coef</span>[<span class="num">1</span>:-<span class="num">1</span>:<span class="num">2</span>] = <span class="num">4</span>\n    <span class="var">coef</span>[<span class="num">2</span>:-<span class="num">1</span>:<span class="num">2</span>] = <span class="num">2</span>\n    <span class="kw">return</span> <span class="var">h</span>/<span class="num">3</span> * <span class="var">np</span>.dot(<span class="var">coef</span>, <span class="var">ys</span>)\n\n<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:\n    <span class="var">a</span>,<span class="var">b</span>=<span class="num">0</span>,<span class="num">50</span>\n    print(<span class="str">f"Trapecio (n=10): {trapecio(Cp,a,b,10):.4f}"</span>)\n    print(<span class="str">f"Simpson 1/3 (n=10): {simpson13(Cp,a,b,10):.4f}"</span>)</div></div>
+        <div id="m-deriv" class="card" style="display:none"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><div><div class="card-title" style="margin:0">derivadas_finitas.m</div><div style="font-size:.7rem;color:var(--text2)">MATLAB / Octave</div></div><button class="btn btn-outline" onclick="downloadAlgo('m-deriv')" style="font-size:.78rem;padding:.5rem 1rem">⬇ Descargar .m</button></div><div class="code-block"><span class="cm">% EC03 - Diferencias Finitas en MATLAB</span>\n<span class="kw">function</span> <span class="fn">derivadas_finitas</span>()\n    x0=60; h=0.1;\n    G=@(x) -2*x.^2+240*x-5000;\n    g_prog=(G(x0+h)-G(x0))/h;\n    g_cent=(G(x0+h)-G(x0-h))/(2*h);\n    g_anal=-4*x0+240;\n    fprintf('Centrada: %.6f\\n',g_cent);\n    fprintf('Analítica: %.6f\\n',g_anal);\nend</div></div>
+        <div id="m-integ" class="card" style="display:none"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><div><div class="card-title" style="margin:0">integracion_numerica.m</div><div style="font-size:.7rem;color:var(--text2)">MATLAB / Octave</div></div><button class="btn btn-outline" onclick="downloadAlgo('m-integ')" style="font-size:.78rem;padding:.5rem 1rem">⬇ Descargar .m</button></div><div class="code-block"><span class="cm">% EC03 - Integración Numérica en MATLAB</span>\n<span class="kw">function</span> <span class="fn">integracion_numerica</span>()\n    Cp=@(x) 4*x+200;\n    a=0; b=50; n=10;\n    h=(b-a)/n; xs=a:h:b;\n    trap=h/2*(Cp(a)+2*sum(Cp(xs(2:end-1)))+Cp(b));\n    simp=h/3*(Cp(a)+4*sum(Cp(xs(2:2:end-1)))+2*sum(Cp(xs(3:2:end-2)))+Cp(b));\n    fprintf('Trapecio: %.4f\\n',trap);\n    fprintf('Simpson 1/3: %.4f\\n',simp);\nend</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABLA COMPARATIVA -->
+<section id="comparativa" style="background:var(--bg2)">
+  <div class="sec-glow tl"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-header"><div class="sec-tag">Componente 07</div><h2 class="sec-title">Tabla <em>Comparativa</em> de Métodos</h2></div>
+    <div class="tabs" id="comp-tabs">
+      <button class="tab-btn active" onclick="switchTab('comp-tabs','comp-panels','comp-deriv')">Derivadas</button>
+      <button class="tab-btn" onclick="switchTab('comp-tabs','comp-panels','comp-integ')">Integración</button>
+    </div>
+    <div id="comp-panels">
+      <div id="comp-deriv" class="tab-content"><div style="margin-bottom:1rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap"><div class="input-group" style="margin:0;display:flex;align-items:center;gap:.5rem"><label>Paso h:</label><input type="number" id="compH" value="0.1" step="0.01" min="0.001" style="width:80px"></div><button class="btn" style="padding:.5rem 1rem;font-size:.78rem" onclick="buildCompDerivTable()">Actualizar</button></div><div style="overflow-x:auto"><table class="data-table" id="compDerivTable"><thead><tr><th>Método</th><th>Fórmula</th><th>Resultado numérico</th><th>Valor analítico</th><th>Error relativo %</th><th>Orden error</th><th>Evaluaciones</th></tr></thead><tbody id="compDerivBody"></tbody></table></div><div class="card" style="margin-top:1.5rem;padding:1rem"><div class="card-title" style="font-size:.85rem">Análisis</div><p style="font-size:.82rem;color:var(--text2)">La <strong style="color:var(--accent)">diferencia centrada</strong> ofrece el mejor balance entre precisión (O(h²)) y costo computacional (2 evaluaciones). La segunda derivada en x=60 confirma que G''(60) = -4 &lt; 0, verificando que es un <strong style="color:var(--accent)">máximo</strong>.</p></div></div>
+      <div id="comp-integ" class="tab-content"><div style="margin-bottom:1rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap"><div class="input-group" style="margin:0;display:flex;align-items:center;gap:.5rem"><label>n subintervalos:</label><input type="number" id="compN" value="6" step="2" min="2" style="width:80px"></div><button class="btn" style="padding:.5rem 1rem;font-size:.78rem" onclick="buildCompIntegTable()">Actualizar</button></div><div style="overflow-x:auto"><table class="data-table" id="compIntegTable"><thead><tr><th>Método</th><th>Resultado numérico ($)</th><th>Valor analítico ($)</th><th>Error relativo %</th><th>Orden error</th><th>Evaluaciones f(x)</th><th>Restricciones n</th></tr></thead><tbody id="compIntegBody"></tbody></table></div><div class="card" style="margin-top:1.5rem;padding:1rem"><div class="card-title" style="font-size:.85rem">Análisis</div><p style="font-size:.82rem;color:var(--text2)">Para C'(x) = 4x + 200 (función lineal), los tres métodos logran error prácticamente cero con pocos subintervalos. En funciones no lineales, <strong style="color:var(--accent)">Simpson 1/3</strong> destaca por su orden O(h⁴). El costo total de producir 5000 botellas es $20,000 (incluyendo $5,000 de costos fijos).</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--bg3);border-top:1px solid var(--border);padding:2rem;text-align:center;z-index:1;position:relative"><div style="font-family:var(--font-head);font-size:.8rem;color:var(--text2)">EC03 · Laboratorio Web Interactivo · Análisis Numérico</div><div style="font-family:var(--font-mono);font-size:.65rem;color:var(--text3);margin-top:.4rem">Derivadas Finitas e Integración Numérica · Fecha de entrega: 20 Mayo 2025 10:00 am</div></footer>
+
+<script>
+// ==================== UTILITIES ====================
+function switchTab(tabGroupId, panelGroupId, targetId) {
+  document.querySelectorAll('#'+tabGroupId+' .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#'+panelGroupId+' .tab-content').forEach(p=>p.classList.remove('active'));
+  const btn = [...document.querySelectorAll('#'+tabGroupId+' .tab-btn')].find(b=>b.onclick&&b.onclick.toString().includes(targetId));
+  if(btn) btn.classList.add('active');
+  const panel = document.getElementById(targetId);
+  if(panel) panel.classList.add('active');
+}
+
+// Evaluación de funciones usando math.js directamente (respeta ^ como potencia)
+function evalFunc(expr, x) {
+  try {
+    return math.evaluate(expr, {x});
+  } catch(e) { console.warn(e); return NaN; }
+}
+
+function relError(num, ana) {
+  if(Math.abs(ana) < 1e-10) return Math.abs(num) < 1e-6 ? 0 : 999;
+  return Math.abs((num - ana) / ana) * 100;
+}
+
+// ==================== PARTICLES ====================
+const pc = document.getElementById('particles');
+for(let i=0;i<25;i++){
+  const p=document.createElement('div'); p.className='particle';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDuration=(8+Math.random()*15)+'s';
+  p.style.animationDelay=Math.random()*10+'s';
+  p.style.opacity=Math.random()*0.5;
+  pc.appendChild(p);
+}
+
+// ==================== SECTION DOTS (sin bitácora) ====================
+const secs = ['hero','teoria','demo','caso','video','infografia','algoritmo','comparativa'];
+const dotsEl = document.getElementById('secDots');
+dotsEl.innerHTML = '';
+secs.forEach((id,i)=>{
+  const d = document.createElement('div'); d.className='sec-dot';
+  d.title=id; d.onclick=()=>document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  dotsEl.appendChild(d);
+});
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=secs.indexOf(e.target.id);
+      document.querySelectorAll('.sec-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+    }
+  });
+},{threshold:0.3});
+secs.forEach(id=>{const el=document.getElementById(id);if(el)observer.observe(el);});
+
+// ==================== CHART DEFAULTS ====================
+Chart.defaults.color='#8892b0';
+Chart.defaults.borderColor='#1e2440';
+Chart.defaults.font.family="'JetBrains Mono',monospace";
+Chart.defaults.font.size=11;
+
+function makeChart(id, config) {
+  const ctx = document.getElementById(id);
+  if(!ctx) return null;
+  if(ctx._chart) ctx._chart.destroy();
+  const c = new Chart(ctx, config);
+  ctx._chart = c; return c;
+}
+
+// ==================== TEORÍA: GEOMETRÍA CHART ====================
+(function(){
+  const xs = Array.from({length:100},(_,i)=>-1+i*0.02);
+  const f  = x=>Math.sin(x);
+  const x0=0.8, h=0.5;
+  const tang = xs.map(x=>Math.cos(x0)*(x-x0)+f(x0));
+  makeChart('dfGeomChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(2)),datasets:[
+      {label:'f(x)=sin(x)',data:xs.map(f),borderColor:'#00f5c4',borderWidth:2,pointRadius:0,tension:.4},
+      {label:'Tangente exacta',data:tang,borderColor:'#7c5cfc',borderWidth:1.5,borderDash:[4,4],pointRadius:0},
+      {label:'Punto x₀',data:xs.map(x=>Math.abs(x-x0)<0.02?f(x0):null),borderColor:'#ff6b35',borderWidth:0,pointRadius:xs.map(x=>Math.abs(x-x0)<0.02?8:0),pointBackgroundColor:'#ff6b35'},
+    ]},
+    options:{plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{grid:{color:'#1e2440'}},x:{ticks:{maxTicksLimit:8},grid:{color:'#1e2440'}}},animation:{duration:800}}
+  });
+})();
+
+// ==================== ERROR CHART ====================
+let errChart;
+function buildErrorChart() {
+  const hs = Array.from({length:50},(_,i)=>0.01+i*0.02);
+  const f=x=>Math.sin(x), ana=Math.cos(1), x0=1;
+  const eProg=hs.map(h=>relError((f(x0+h)-f(x0))/h,ana));
+  const eCent=hs.map(h=>relError((f(x0+h)-f(x0-h))/(2*h),ana));
+  errChart=makeChart('errorChart',{
+    type:'line',
+    data:{labels:hs.map(h=>h.toFixed(2)),datasets:[
+      {label:'Progresiva O(h)',data:eProg,borderColor:'#ff6b35',borderWidth:2,pointRadius:0},
+      {label:'Centrada O(h²)',data:eCent,borderColor:'#00f5c4',borderWidth:2,pointRadius:0},
+    ]},
+    options:{plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{title:{display:true,text:'Error %'},grid:{color:'#1e2440'}},x:{title:{display:true,text:'h'},ticks:{maxTicksLimit:10},grid:{color:'#1e2440'}}}}
+  });
+}
+function updateErrorChart(v) {
+  const h=v/100;
+  document.getElementById('hVal').textContent=h.toFixed(2);
+  const f=x=>Math.sin(x), ana=Math.cos(1), x0=1;
+  document.getElementById('errProg').textContent=relError((f(x0+h)-f(x0))/h,ana).toFixed(3)+'%';
+  document.getElementById('errRegr').textContent=relError((f(x0)-f(x0-h))/h,ana).toFixed(3)+'%';
+  document.getElementById('errCent').textContent=relError((f(x0+h)-f(x0-h))/(2*h),ana).toFixed(5)+'%';
+}
+function buildConvergenceTable() {
+  const hs=[1,0.5,0.2,0.1,0.05,0.01];
+  const f=x=>Math.sin(x), ana=Math.cos(1), x0=1;
+  const tb=document.getElementById('convergenceBody'); if(!tb) return;
+  tb.innerHTML=hs.map(h=>{
+    const ep=relError((f(x0+h)-f(x0))/h,ana);
+    const er=relError((f(x0)-f(x0-h))/h,ana);
+    const ec=relError((f(x0+h)-f(x0-h))/(2*h),ana);
+    return `<tr><td>${h}</td><td>${ep.toFixed(4)}%</td><td class="${ec<ep?'best':''}">${er.toFixed(4)}%</td><td class="best">${ec.toFixed(6)}%</td></tr>`;
+  }).join('');
+}
+
+// ==================== DEMO: DERIVADAS ====================
+let derivChartInst;
+function calcDerivDemo() {
+  const fstr=document.getElementById('derivFunc').value;
+  const x0=parseFloat(document.getElementById('derivX').value);
+  const h=parseFloat(document.getElementById('derivH').value);
+  const method=document.getElementById('derivMethod').value;
+  const f=x=>evalFunc(fstr,x);
+  let num,formula,step1,step2,step3;
+  if(method==='prog'){
+    num=(f(x0+h)-f(x0))/h;
+    formula=`[f(${x0}+${h}) − f(${x0})] / ${h}`;
+    step1=`f(${x0+h}) = ${f(x0+h).toFixed(6)}`;
+    step2=`f(${x0}) = ${f(x0).toFixed(6)}`;
+    step3=`[${f(x0+h).toFixed(4)} − ${f(x0).toFixed(4)}] / ${h} = ${num.toFixed(6)}`;
+  } else if(method==='regr'){
+    num=(f(x0)-f(x0-h))/h;
+    formula=`[f(${x0}) − f(${x0}−${h})] / ${h}`;
+    step1=`f(${x0}) = ${f(x0).toFixed(6)}`;
+    step2=`f(${x0-h}) = ${f(x0-h).toFixed(6)}`;
+    step3=`[${f(x0).toFixed(4)} − ${f(x0-h).toFixed(4)}] / ${h} = ${num.toFixed(6)}`;
+  } else if(method==='cent'){
+    num=(f(x0+h)-f(x0-h))/(2*h);
+    formula=`[f(${x0}+${h}) − f(${x0}−${h})] / (2×${h})`;
+    step1=`f(${x0+h}) = ${f(x0+h).toFixed(6)}`;
+    step2=`f(${x0-h}) = ${f(x0-h).toFixed(6)}`;
+    step3=`[${f(x0+h).toFixed(4)} − ${f(x0-h).toFixed(4)}] / ${2*h} = ${num.toFixed(6)}`;
+  } else {
+    num=(f(x0+h)-2*f(x0)+f(x0-h))/(h*h);
+    formula=`[f(x+h) − 2f(x) + f(x−h)] / h²`;
+    step1=`f(${x0+h}) = ${f(x0+h).toFixed(6)}`;
+    step2=`f(${x0}) = ${f(x0).toFixed(6)}, f(${x0-h}) = ${f(x0-h).toFixed(6)}`;
+    step3=`[${f(x0+h).toFixed(4)} − 2×${f(x0).toFixed(4)} + ${f(x0-h).toFixed(4)}] / ${h}² = ${num.toFixed(6)}`;
+  }
+  let ana=NaN;
+  try{
+    const scope={x:x0};
+    ana=math.derivative(fstr, 'x').evaluate(scope);
+  }catch(e){}
+  const xs=Array.from({length:200},(_,i)=>x0-5+i*0.05);
+  const ys=xs.map(x=>f(x));
+  const tangLine=xs.map(x=>num*(x-x0)+f(x0));
+  derivChartInst=makeChart('derivChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(2)),datasets:[
+      {label:'f(x)',data:ys,borderColor:'#00f5c4',borderWidth:2,pointRadius:0,tension:.3},
+      {label:'Tangente numérica',data:tangLine,borderColor:'#ff6b35',borderWidth:1.5,borderDash:[5,5],pointRadius:0},
+      {label:'x₀',data:xs.map(x=>Math.abs(x-x0)<0.06?f(x0):null),pointRadius:xs.map(x=>Math.abs(x-x0)<0.06?6:0),pointBackgroundColor:'#7c5cfc',borderWidth:0,showLine:false},
+    ]},
+    options:{plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{grid:{color:'#1e2440'}},x:{ticks:{maxTicksLimit:8},grid:{color:'#1e2440'}}}}
+  });
+  document.getElementById('derivResult').style.display='block';
+  document.getElementById('derivNumRes').textContent=num.toFixed(6);
+  document.getElementById('derivAnaRes').textContent=isNaN(ana)?'—':ana.toFixed(6);
+  document.getElementById('derivErrRes').textContent=isNaN(ana)?'—':relError(num,ana).toFixed(4)+'%';
+  document.getElementById('derivSteps').style.display='block';
+  document.getElementById('derivStepsList').innerHTML=`
+    <div class="step-item"><div class="step-num">1</div><div>Fórmula: <span style="color:var(--accent);font-family:var(--font-mono)">${formula}</span></div></div>
+    <div class="step-item"><div class="step-num">2</div><div>${step1}</div></div>
+    <div class="step-item"><div class="step-num">3</div><div>${step2}</div></div>
+    <div class="step-item"><div class="step-num">4</div><div>${step3}</div></div>
+  `;
+}
+
+// ==================== DEMO: INTEGRACIÓN ====================
+function trapecio(f,a,b,n){const h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=2*f(a+i*h);return h/2*s;}
+function simpson13(f,a,b,n){if(n%2!==0)n++;const h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%2===0?2:4)*f(a+i*h);return h/3*s;}
+function simpson38(f,a,b,n){while(n%3!==0)n++;const h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%3===0?2:3)*f(a+i*h);return 3*h/8*s;}
+
+function calcIntegDemo(){
+  const fstr=document.getElementById('integFunc').value;
+  const a=parseFloat(document.getElementById('integA').value);
+  const b=parseFloat(document.getElementById('integB').value);
+  let n=parseInt(document.getElementById('integN').value);
+  const method=document.getElementById('integMethod').value;
+  const f=x=>evalFunc(fstr,x);
+  let num,steps=[];
+  if(method==='trap'){
+    const h=(b-a)/n;
+    num=trapecio(f,a,b,n);
+    steps=[`h = (${b}−${a}) / ${n} = ${h.toFixed(4)}`,`Suma interior = 2×[f(x₁)+...+f(x_{n-1})]`,`Resultado = h/2 × [f(a) + Σ_int + f(b)] = ${num.toFixed(4)}`];
+  } else if(method==='simp13'){
+    if(n%2!==0)n++;
+    const h=(b-a)/n;
+    num=simpson13(f,a,b,n);
+    steps=[`h = (${b}−${a}) / ${n} = ${h.toFixed(4)}`,`Coeficientes: 1,4,2,4,...,1`,`Resultado = h/3 × suma = ${num.toFixed(4)}`];
+  } else {
+    while(n%3!==0)n++;
+    const h=(b-a)/n;
+    num=simpson38(f,a,b,n);
+    steps=[`h = (${b}−${a}) / ${n} = ${h.toFixed(4)}`,`Coeficientes: 1,3,3,2,...,1`,`Resultado = 3h/8 × suma = ${num.toFixed(4)}`];
+  }
+  let ana=NaN;
+  try{
+    const expr=math.parse(fstr);
+    const antider=math.antiderivative(expr, 'x');
+    ana=antider.evaluate({x:b})-antider.evaluate({x:a});
+  }catch(e){}
+  const xs=Array.from({length:200},(_,i)=>a+(b-a)*i/199);
+  const ys=xs.map(f);
+  const barXs=Array.from({length:n+1},(_,i)=>a+i*(b-a)/n);
+  makeChart('integChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(1)),datasets:[
+      {label:'f(x)',data:ys,borderColor:'#00f5c4',borderWidth:2,pointRadius:0,fill:{target:'origin',above:'rgba(0,245,196,0.08)'}},
+      {label:'Puntos muestreados',data:xs.map((x,i)=>{const j=Math.round((x-a)/(b-a)*n);if(Math.abs(x-barXs[Math.min(j,n)])<(b-a)/n/2)return f(x);return null;}),borderColor:'#7c5cfc',pointRadius:xs.map(x=>{const j=Math.round((x-a)/(b-a)*n);return Math.abs(x-barXs[Math.min(j,n)])<(b-a)/n/2?5:0;}),pointBackgroundColor:'#7c5cfc',showLine:false},
+    ]},
+    options:{plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{grid:{color:'#1e2440'}},x:{ticks:{maxTicksLimit:8},grid:{color:'#1e2440'}}}}
+  });
+  document.getElementById('integResult').style.display='block';
+  document.getElementById('integNumRes').textContent=num.toFixed(4);
+  document.getElementById('integAnaRes').textContent=isNaN(ana)?'—':ana.toFixed(4);
+  document.getElementById('integErrRes').textContent=isNaN(ana)?'—':relError(num,ana).toFixed(4)+'%';
+  document.getElementById('integSteps').style.display='block';
+  document.getElementById('integStepsList').innerHTML=steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div>${s}</div></div>`).join('');
+}
+
+// ==================== CASO DERIVADAS ====================
+function buildCasoDerivChart(){
+  const G=x=>-2*x*x+240*x-5000;
+  const xs=Array.from({length:200},(_,i)=>i*0.6);
+  const ys=xs.map(G);
+  makeChart('casoDerivChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(0)),datasets:[
+      {label:'G(x) = −2x²+240x−5000',data:ys,borderColor:'#00f5c4',borderWidth:2,pointRadius:0,tension:.3,fill:{target:'origin',above:'rgba(0,245,196,0.05)'}},
+      {label:'Máximo x=60, G=$2200',data:xs.map(x=>Math.abs(x-60)<0.7?2200:null),borderColor:'#ff6b35',borderWidth:0,pointRadius:xs.map(x=>Math.abs(x-60)<0.7?10:0),pointBackgroundColor:'#ff6b35'},
+    ]},
+    options:{plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{title:{display:true,text:'G(x) [$]'},grid:{color:'#1e2440'}},x:{title:{display:true,text:'x (cientos de botellas)'},ticks:{maxTicksLimit:10},grid:{color:'#1e2440'}}}}
+  });
+}
+function updateCasoDerivCalc(v){
+  const h=v/100, x0=60;
+  document.getElementById('casoHVal').textContent=h.toFixed(2);
+  const G=x=>-2*x*x+240*x-5000;
+  document.getElementById('casoDProg').textContent=((G(x0+h)-G(x0))/h).toFixed(3);
+  document.getElementById('casoDRegr').textContent=((G(x0)-G(x0-h))/h).toFixed(3);
+  document.getElementById('casoDCent').textContent=((G(x0+h)-G(x0-h))/(2*h)).toFixed(3);
+}
+
+// ==================== CASO INTEGRALES ====================
+function buildCasoIntegChart(){
+  const Cp=x=>4*x+200;
+  const xs=Array.from({length:100},(_,i)=>i*0.5);
+  makeChart('casoIntegChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(0)),datasets:[{label:"C'(x) = 4x+200",data:xs.map(Cp),borderColor:'#ff6b35',borderWidth:2,pointRadius:0,fill:{target:'origin',above:'rgba(255,107,53,0.08)'}}]},
+    options:{plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{title:{display:true,text:"C'(x) [$/100 bot]"},grid:{color:'#1e2440'}},x:{title:{display:true,text:'x (cientos de botellas)'},ticks:{maxTicksLimit:10},grid:{color:'#1e2440'}}}}
+  });
+}
+function buildCasoIntegTable(){
+  const Cp=x=>4*x+200, a=0, b=50, ana=10000;
+  const tb=document.getElementById('casoIntegBody'); if(!tb)return;
+  const methods=[
+    {name:'Trapecio', n:4, fn:(a,b,n)=>trapecio(Cp,a,b,n)},
+    {name:'Trapecio', n:10, fn:(a,b,n)=>trapecio(Cp,a,b,n)},
+    {name:'Simpson 1/3', n:4, fn:(a,b,n)=>simpson13(Cp,a,b,n)},
+    {name:'Simpson 1/3', n:10, fn:(a,b,n)=>simpson13(Cp,a,b,n)},
+    {name:'Simpson 3/8', n:6, fn:(a,b,n)=>simpson38(Cp,a,b,n)},
+  ];
+  tb.innerHTML=methods.map(m=>{
+    const r=m.fn(a,b,m.n);
+    const err=relError(r,ana);
+    return `<tr><td>${m.name}</td><td>${m.n}</td><td class="${err<0.01?'best':''}">${r.toFixed(2)}</td><td class="${err<0.01?'best':''}">${err.toFixed(4)}%</td></tr>`;
+  }).join('');
+}
+
+// ==================== INFOGRAFÍA ====================
+let infoGanChartInst;
+function updateGanChart(){
+  const a=parseFloat(document.getElementById('slA').value);
+  const b=parseFloat(document.getElementById('slB').value);
+  const c=parseFloat(document.getElementById('slC').value);
+  document.getElementById('slAv').textContent=a;
+  document.getElementById('slBv').textContent=b;
+  document.getElementById('slCv').textContent=-c;
+  const xOpt=-b/(2*a);
+  const gMax=a*xOpt*xOpt+b*xOpt-c;
+  document.getElementById('infoXopt').textContent=xOpt.toFixed(1);
+  document.getElementById('infoGmax').textContent=gMax.toFixed(0);
+  document.getElementById('infoGfunc').textContent=`G(x) = ${a}x² + ${b}x − ${c}`;
+  const xs=Array.from({length:200},(_,i)=>i*0.6);
+  const G=x=>a*x*x+b*x-c;
+  infoGanChartInst=makeChart('infoGanChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(0)),datasets:[
+      {label:'G(x)',data:xs.map(G),borderColor:'#00f5c4',borderWidth:2,pointRadius:0,tension:.3,fill:{target:'origin',above:'rgba(0,245,196,0.05)'}},
+      {label:`Máximo (${xOpt.toFixed(1)}, ${gMax.toFixed(0)})`,data:xs.map(x=>Math.abs(x-xOpt)<0.7?gMax:null),borderColor:'#ff6b35',borderWidth:0,pointRadius:xs.map(x=>Math.abs(x-xOpt)<0.7?8:0),pointBackgroundColor:'#ff6b35'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{grid:{color:'#1e2440'}},x:{ticks:{maxTicksLimit:8},grid:{color:'#1e2440'}}}}
+  });
+}
+function updateCostChart(){
+  const ca=parseFloat(document.getElementById('slCa').value);
+  const cb=parseFloat(document.getElementById('slCb').value);
+  const ck=parseFloat(document.getElementById('slCk').value);
+  const cx=parseFloat(document.getElementById('slCx').value);
+  document.getElementById('slCav').textContent=ca;
+  document.getElementById('slCbv').textContent=cb;
+  document.getElementById('slCkv').textContent=ck;
+  document.getElementById('slCxv').textContent=cx;
+  const total=ca*cx*cx+cb*cx+ck;
+  document.getElementById('infoCost').textContent='$'+total.toLocaleString();
+  const xs=Array.from({length:100},(_,i)=>i*(cx+10)/99);
+  const Cp=x=>ca*x+cb;
+  const Ct=x=>ca*x*x+cb*x+ck;
+  makeChart('infoCostChart',{
+    type:'line',
+    data:{labels:xs.map(x=>x.toFixed(1)),datasets:[
+      {label:"C'(x) marginal",data:xs.map(Cp),borderColor:'#ff6b35',borderWidth:2,pointRadius:0,yAxisID:'y'},
+      {label:'C(x) total',data:xs.map(Ct),borderColor:'#7c5cfc',borderWidth:2,pointRadius:0,yAxisID:'y1'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{position:'left',title:{display:true,text:'C marginal'},grid:{color:'#1e2440'}},y1:{position:'right',title:{display:true,text:'C total'},grid:{drawOnChartArea:false}},x:{ticks:{maxTicksLimit:8},grid:{color:'#1e2440'}}}}
+  });
+}
+function updateMetChart(){
+  const n=parseInt(document.getElementById('slN').value);
+  document.getElementById('slNv').textContent=n;
+  const Cp=x=>4*x+200, a=0, b=50, ana=10000;
+  const t=trapecio(Cp,a,b,n);
+  const s1=simpson13(Cp,a,b,n);
+  const s3=simpson38(Cp,a,b,n);
+  const tb=document.getElementById('metTableBody');
+  if(tb) tb.innerHTML=[
+    {name:'Trapecio',v:t},{name:'Simpson 1/3',v:s1},{name:'Simpson 3/8',v:s3}
+  ].map(m=>{
+    const err=relError(m.v,ana);
+    return `<tr><td>${m.name}</td><td class="${err<0.001?'best':''}">${m.v.toFixed(4)}</td><td class="${err<0.001?'best':''}">${err.toFixed(6)}%</td></tr>`;
+  }).join('');
+  makeChart('infoMetChart',{
+    type:'bar',
+    data:{labels:['Trapecio','Simpson 1/3','Simpson 3/8','Analítico'],datasets:[{label:'Resultado',data:[t,s1,s3,ana],backgroundColor:['rgba(255,107,53,0.6)','rgba(0,245,196,0.6)','rgba(124,92,252,0.6)','rgba(255,255,255,0.2)'],borderColor:['#ff6b35','#00f5c4','#7c5cfc','#ffffff'],borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:9990,title:{display:true,text:'Resultado ($)'},grid:{color:'#1e2440'}},x:{grid:{color:'#1e2440'}}}}
+  });
+}
+
+// ==================== TABLAS COMPARATIVAS ====================
+function buildCompDerivTable(){
+  const h=parseFloat(document.getElementById('compH').value)||0.1;
+  const G=x=>-2*x*x+240*x-5000, x0=60, ana=-4*x0+240;
+  const methods=[
+    {name:'Progresiva',formula:'[f(x+h)−f(x)]/h',fn:()=>(G(x0+h)-G(x0))/h,ord:'O(h)',evals:2},
+    {name:'Regresiva',formula:'[f(x)−f(x−h)]/h',fn:()=>(G(x0)-G(x0-h))/h,ord:'O(h)',evals:2},
+    {name:'Centrada ★',formula:'[f(x+h)−f(x−h)]/(2h)',fn:()=>(G(x0+h)-G(x0-h))/(2*h),ord:'O(h²)',evals:2,best:true},
+    {name:'2ª Derivada',formula:'[f(x+h)−2f(x)+f(x−h)]/h²',fn:()=>(G(x0+h)-2*G(x0)+G(x0-h))/(h*h),ord:'O(h²)',evals:3,ana2:-4},
+  ];
+  const tb=document.getElementById('compDerivBody'); if(!tb)return;
+  tb.innerHTML=methods.map(m=>{
+    const r=m.fn();
+    const av=m.ana2!==undefined?m.ana2:ana;
+    const err=relError(r,av);
+    return `<tr class="${m.best?'highlight':''}"><td>${m.name}</td><td style="font-family:var(--font-mono);font-size:.75rem">${m.formula}</td><td class="${m.best?'best':''}">${r.toFixed(6)}</td><td>${av.toFixed(6)}</td><td class="${err<0.01?'best':''}">${err.toFixed(4)}%</td><td class="badge green" style="margin:0">${m.ord}</td><td>${m.evals}</td></tr>`;
+  }).join('');
+}
+function buildCompIntegTable(){
+  const n=parseInt(document.getElementById('compN').value)||6;
+  const Cp=x=>4*x+200, a=0, b=50, ana=10000;
+  const methods=[
+    {name:'Trapecio',fn:(a,b,n)=>trapecio(Cp,a,b,n),ord:'O(h²)',restr:'n cualquiera'},
+    {name:'Simpson 1/3 ★',fn:(a,b,n)=>simpson13(Cp,a,b,n),ord:'O(h⁴)',restr:'n par',best:true},
+    {name:'Simpson 3/8',fn:(a,b,n)=>simpson38(Cp,a,b,n),ord:'O(h⁴)',restr:'n múlt. 3'},
+  ];
+  const tb=document.getElementById('compIntegBody'); if(!tb)return;
+  tb.innerHTML=methods.map(m=>{
+    const r=m.fn(a,b,n);
+    const err=relError(r,ana);
+    const nevals=n+1;
+    return `<tr class="${m.best?'highlight':''}"><td>${m.name}</td><td class="${m.best?'best':''}">${r.toFixed(4)}</td><td>$${ana.toFixed(2)}</td><td class="${err<0.001?'best':''}">${err.toFixed(6)}%</td><td>${m.ord}</td><td>${nevals}</td><td style="font-size:.75rem;color:var(--text2)">${m.restr}</td></tr>`;
+  }).join('');
+}
+
+// ==================== ALGORITMOS ====================
+function showAlgo(id){
+  document.querySelectorAll('.algo-btn').forEach((b,i)=>{
+    const ids=['py-deriv','py-integ','m-deriv','m-integ'];
+    b.classList.toggle('active',ids[i]===id);
+  });
+  ['py-deriv','py-integ','m-deriv','m-integ'].forEach(n=>{
+    const el=document.getElementById(n);
+    if(el)el.style.display=n===id?'block':'none';
+  });
+}
+function getAlgoCode(id){
+  const codes={
+    'py-deriv':`# EC03 - Diferencias Finitas Python\nimport numpy as np\ndef G(x): return -2*x**2 + 240*x - 5000\ndef df_centrada(f,x,h=0.1): return (f(x+h)-f(x-h))/(2*h)\nif __name__=="__main__":\n    x0,h=60,0.1\n    print(f"Centrada: {df_centrada(G,x0,h):.6f}")\n    print(f"Analítica: {-4*x0+240:.6f}")`,
+    'py-integ':`# EC03 - Integracion Numerica Python\nimport numpy as np\ndef Cp(x): return 4*x+200\ndef simpson13(f,a,b,n):\n    if n%2!=0: n+=1\n    h=(b-a)/n; xs=np.linspace(a,b,n+1); ys=f(xs)\n    c=np.ones(n+1); c[1:-1:2]=4; c[2:-1:2]=2\n    return h/3*np.dot(c,ys)\nif __name__=="__main__":\n    a,b=0,50\n    print(f"Simpson 1/3: {simpson13(Cp,a,b,10):.4f}")`,
+    'm-deriv':`% EC03 - Diferencias Finitas MATLAB\nfunction derivadas_finitas()\n    x0=60; h=0.1;\n    G=@(x) -2*x.^2+240*x-5000;\n    g_cent=(G(x0+h)-G(x0-h))/(2*h);\n    fprintf('Centrada: %.6f\\n',g_cent);\n    fprintf('Analítica: %.6f\\n',-4*x0+240);\nend`,
+    'm-integ':`% EC03 - Integracion Numerica MATLAB\nfunction integracion_numerica()\n    Cp=@(x) 4*x+200;\n    a=0; b=50; n=10;\n    h=(b-a)/n; xs=a:h:b;\n    simp=h/3*(Cp(a)+4*sum(Cp(xs(2:2:end-1)))+2*sum(Cp(xs(3:2:end-2)))+Cp(b));\n    fprintf('Simpson 1/3: %.4f\\n',simp);\nend`,
+  };
+  return codes[id]||'';
+}
+function downloadAlgo(id){
+  const exts={'py-deriv':'.py','py-integ':'.py','m-deriv':'.m','m-integ':'.m'};
+  const names={'py-deriv':'derivadas_finitas','py-integ':'integracion_numerica','m-deriv':'derivadas_finitas','m-integ':'integracion_numerica'};
+  const blob=new Blob([getAlgoCode(id)],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=names[id]+exts[id]; a.click();
+}
+function downloadManual(){
+  const txt=`MANUAL DE USO – EC03 Algoritmos de Métodos Numéricos\n\nREQUISITOS:\n  Python: numpy, matplotlib\n  MATLAB/Octave: versión 2018 o superior\n\nCASO DERIVADAS:\n  Función: G(x) = -2x² + 240x - 5000\n  Punto óptimo: x=60 (6000 botellas)\n  Ganancia máxima: $2200/día\n\nCASO INTEGRALES:\n  Función: C'(x) = 4x + 200\n  Integrar de 0 a 50\n  Costo variable: $10,000 (+ $5,000 fijos = $20,000)\n  Usar simpson13() para mayor precisión O(h⁴)\n`;
+  const blob=new Blob([txt],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='manual_ec03.txt'; a.click();
+}
+
+// ==================== VIDEO ====================
+function loadVideo(id, url){
+  const c=document.getElementById(id);
+  c.innerHTML=`<iframe src="${url}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+  c.style.cursor='default';
+}
+
+// ==================== AI CHAT (simplificado) ====================
+const SYSTEM_PROMPT=`Eres NuméricaBot, especialista en EC03. Responde siempre en español, de forma concisa y técnica. Máximo 150 palabras.`;
+async function sendAIMsg(){
+  const inp=document.getElementById('chatInput');
+  const msg=inp.value.trim(); if(!msg)return;
+  inp.value='';
+  appendMsg('user',msg);
+  const typing=appendTyping();
+  try{
+    setTimeout(()=>{
+      typing.remove();
+      appendMsg('ai',`Recibí tu pregunta: "${msg}". Como asistente local, puedo decirte que el óptimo de producción es x=60 (6000 botellas) con ganancia máxima $2200/día, y la integral de costo marginal de 0 a 50 da $10,000 de costo variable. Para más detalles, revisa las tablas interactivas.`);
+    },500);
+  }catch(e){
+    typing.remove();
+    appendMsg('ai','Error de conexión. Asegúrate de estar en línea.');
+  }
+}
+function appendMsg(role,text){
+  const chat=document.getElementById('aiChat');
+  const div=document.createElement('div'); div.className=`msg ${role}`;
+  div.innerHTML=`<div class="msg-avatar ${role}">${role==='ai'?'IA':'U'}</div><div class="msg-bubble">${text}</div>`;
+  chat.appendChild(div); chat.scrollTop=chat.scrollHeight;
+  return div;
+}
+function appendTyping(){
+  const chat=document.getElementById('aiChat');
+  const div=document.createElement('div'); div.className='msg typing-msg';
+  div.innerHTML=`<div class="msg-avatar ai">IA</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  chat.appendChild(div); chat.scrollTop=chat.scrollHeight;
+  return div;
+}
+function quickAsk(q){
+  document.getElementById('chatInput').value=q;
+  sendAIMsg();
+}
+
+// ==================== INIT ====================
+window.addEventListener('DOMContentLoaded',()=>{
+  buildErrorChart();
+  buildConvergenceTable();
+  buildCasoDerivChart();
+  updateCasoDerivCalc(10);
+  buildCasoIntegChart();
+  buildCasoIntegTable();
+  updateGanChart();
+  updateCostChart();
+  updateMetChart();
+  buildCompDerivTable();
+  buildCompIntegTable();
+  setTimeout(()=>{
+    calcDerivDemo();
+    calcIntegDemo();
+  },300);
+});
+</script>
+</body>
+</html>
